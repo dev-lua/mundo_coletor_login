@@ -1,2 +1,2 @@
 # mundo_coletor_login
-Tópicos Especiais - 2 semestre
+Tópicos Especiais - 2 bimestre
