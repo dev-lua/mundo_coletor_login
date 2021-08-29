@@ -82,13 +82,13 @@ export default function Register({ navigation }) {
                     style={styles.input}
                     value={state.userName}
                     onChangeText={(value) => handleChangeText('userName', value)}
-                    placeholder={'Nome Completo'}
+                    placeholder={'Nome'}
                 />
                 <TextInput
                     style={styles.input}
                     value={state.userPhone}
                     onChangeText={(value) => handleChangeText('userPhone', value)}
-                    placeholder={'Telefone para Contato'}
+                    placeholder={'Telefone'}
                     keyboardType="numeric"
                 />
                 <TextInput

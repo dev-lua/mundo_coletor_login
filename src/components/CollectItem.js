@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import ProductModel from '../models/ProductModel';
+import CollectModel from '../models/CollectModel';
 
 export default function CollectItem(props) {
 
     async function handleEditButton() {
-        const item = await ProductModel.getItem(props.item.id);
-        props.navigation.navigate("Product", item);
+        const item = await CollectModel.getItem(props.item.id);
+        props.navigation.navigate("Collect", item);
     }
 
     function handleDeletePress() {
@@ -16,34 +16,35 @@ export default function CollectItem(props) {
             `Tem certeza que deseja excluir "${props.item.name}"?`,
             [
                 {
-                text: "Não",
-                onPress: () => console.log("Cancel Pressed"),
-                style: "cancel"
+                    text: "Não",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
                 },
-                { text: "Sim", onPress: () => {
-                    ProductModel.deleteItem(props.item.id)
-                    .then(response => props.navigation.navigate("ProductList", {id: props.item.id}));
+                {
+                    text: "Sim", onPress: () => {
+                        CollectModel.deleteItem(props.item.id)
+                            .then(response => props.navigation.navigate("CollectList", { id: props.item.id }));
                     }
                 }
             ],
             { cancelable: false }
-            );
+        );
     }
 
     return (
         <View style={styles.container}>
             <Text style={styles.itemTextName}>{props.item.name}</Text>
             <View style={styles.itemLayoutDetail}>
-                <Text style={styles.itemTextDetailTitle}>Id: </Text>
+                <Text style={styles.itemTextDetailTitle}>PROTOCOLO: </Text>
                 <Text style={styles.itemTextDetail}>{props.item.id}</Text>
             </View>
             <View style={styles.itemLayoutDetail}>
-                <Text style={styles.itemTextDetailTitle}>Preço (R$): </Text>
-                <Text style={styles.itemTextDetail}>{props.item.price}</Text>
+                <Text style={styles.itemTextDetailTitle}>Taxa: R$ </Text>
+                <Text style={styles.itemTextDetail}>{props.item.price},00</Text>
             </View>
             <View style={styles.itemLayoutDetail}>
-                <Text style={styles.itemTextDetailTitle}>Qtde Estoque (Kg): </Text>
-                <Text style={styles.itemTextDetail}>{props.item.qty}</Text>
+                <Text style={styles.itemTextDetailTitle}>Peso: </Text>
+                <Text style={styles.itemTextDetail}>{props.item.qty}Kg</Text>
             </View>
 
             <View style={styles.buttonsContainer}>
@@ -60,7 +61,7 @@ export default function CollectItem(props) {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#FEF3B4',
+        backgroundColor: '#fff',
         marginTop: 15,
         width: '100%',
         borderRadius: 10,
@@ -72,12 +73,11 @@ const styles = StyleSheet.create({
     itemTextName: {
         fontSize: 20,
         fontWeight: 'bold',
-        color: '#730000',
+        color: '#222',
     },
     itemTextDetailTitle: {
         fontSize: 15,
-        fontWeight: 'bold',
-        color: '#730000',
+        color: '#222',
     },
     itemTextDetail: {
         fontSize: 15,
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     editButton: {
         marginLeft: 10,
         height: 30,
-        backgroundColor: '#D26900',
+        backgroundColor: '#333',
         borderRadius: 7,
         padding: 5,
         fontSize: 12,
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     deleteButton: {
         marginLeft: 10,
         height: 30,
-        backgroundColor: '#D26900',
+        backgroundColor: '#333',
         borderRadius: 7,
         padding: 5,
         fontSize: 12,

@@ -121,7 +121,7 @@ export default function Login({ navigation, route }) {
             <Text style={styles.textUnderline}>Esqueceu sua senha?</Text>
           </TouchableOpacity>
         ) : null}
-        
+
       </View>
       <TouchableOpacity
         onPress={handleDeleteRegister}>
@@ -173,15 +173,6 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
     paddingBottom: 10,
-  },
-  titleWelcome: {
-    fontWeight: 'bold',
-    fontSize: 20,
-    color: '#000000',
-    marginBottom: 50,
-    textAlign: 'center',
-    paddingHorizontal: 35,
-    paddingTop: 10,
   },
   input: {
     width: '100%',

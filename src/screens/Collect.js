@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet } from 'react-native';
 import Separator from '../components/Separator';
-import ProductModel from '../models/ProductModel';
+import CollectModel from '../models/CollectModel';
 
 export default function Collect({ navigation, route }) {
   const [state, setState] = React.useState({
-    productName: '',
-    productPrice: '',
-    productQty: '',
+    collectName: '',
+    collectWeight: '',
+    collectCount: '',
   });
 
   const handleChangeText = (key, value) => {
@@ -18,21 +18,21 @@ export default function Collect({ navigation, route }) {
 
   React.useEffect(() => {
     if (!route.params) return;
-    setState({productName:route.params.name,productPrice:route.params.price.toString(),productQty:route.params.qty.toString()});
+    setState({ collectName: route.params.name, collectWeight: route.params.price.toString(), collectCount: route.params.qty.toString() });
   }, [route]);
 
   async function handleSave() {
-    if (!state.productName || !state.productPrice || !state.productQty) {
+    if (!state.collectName || !state.collectWeight || !state.collectCount) {
       Alert.alert(
-        'Erro ao tentar cadastrar produto:',
+        'Erro ao tentar cadastrar coleta:',
         'Preencha todos os campos corretamente!'
       );
     } else {
       const listItem = {
-        name: state.productName, price: parseFloat(state.productPrice),
-        qty: parseInt(state.productQty)
+        name: state.collectName, price: parseFloat(state.collectWeight),
+        qty: parseInt(state.collectCount)
       };
-      ProductModel.saveItem(listItem,id)
+      CollectModel.saveItem(listItem, id)
         .then(() => {
           setState({});
           Alert.alert(
@@ -40,85 +40,112 @@ export default function Collect({ navigation, route }) {
             'Coleta salva com sucesso!'
           );
         })
-        .then(() => navigation.navigate("ProductList", listItem))
+        .then(() => navigation.navigate("CollectList", listItem))
         .catch(
           () => Alert.alert(
             'Erro ao tentar cadastrar coleta:',
             'Erro no AsyncStorage!'
           )
         );
-        route.params = null;
+      route.params = null;
     }
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.titleText}>Dados da Coleta</Text>
-      <TextInput
-        style={styles.input}
-        value={state.productName}
-        onChangeText={(value) => handleChangeText('productName', value)}
-        placeholder={'Nome'}
-        clearButtonMode="always" //Botão para limpar no iOS
-      />
-      <TextInput
-        style={styles.input}
-        value={state.productPrice}
-        placeholder={'Preço'}
-        onChangeText={(value) => handleChangeText('productPrice', value)}
-        keyboardType="numeric"
-        clearButtonMode="always"
-      />
-      <TextInput
-        style={styles.input}
-        value={state.productQty}
-        placeholder={'Qtde estoque'}
-        onChangeText={(value) => handleChangeText('productQty', value)}
-        keyboardType="numeric"
-        clearButtonMode="always"
-      />
-      <Separator marginVertical={30} />
-      <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-        <Text style={styles.saveButtonText}>Salvar</Text>
-      </TouchableOpacity>
-    </View>
+    <>
+      <View style={styles.containerHeader}>
+        <Text style={styles.titleText}>Dados da Coleta</Text>
+      </View>
+      <View style={styles.containerBody}>
+        <TextInput
+          style={styles.input}
+          value={state.collectName}
+          onChangeText={(value) => handleChangeText('collectName', value)}
+          placeholder={'Nome da Coleta'}
+          clearButtonMode="always"
+        />
+        <TextInput
+          style={styles.input}
+          value={state.collectWeight}
+          placeholder={'Taxa (R$)'}
+          onChangeText={(value) => handleChangeText('collectWeight', value)}
+          keyboardType="numeric"
+          clearButtonMode="always"
+        />
+        <TextInput
+          style={styles.input}
+          value={state.collectCount}
+          placeholder={'Peso (Kg)'}
+          onChangeText={(value) => handleChangeText('collectCount', value)}
+          keyboardType="numeric"
+          clearButtonMode="always"
+        />
+        <Separator marginVertical={30} />
+      </View>
+      <View style={styles.containerFooter}>
+        <TouchableOpacity style={styles.buttonPrimary} onPress={handleSave}>
+          <Text style={styles.saveButtonText}>SALVAR</Text>
+        </TouchableOpacity>
+      </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  containerHeader: {
+    flex: 2,
     alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#FFC300',
+    backgroundColor: '#ffffff',
+    padding: 20,
+  },
+  containerBody: {
+    flex: 2,
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    backgroundColor: '#ffffff',
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingTop: 10,
+    position: 'relative',
+  },
+  containerFooter: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+    backgroundColor: '#ffffff',
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingBottom: 10,
   },
   titleText: {
     fontWeight: 'bold',
-    fontSize: 30,
-    color: '#730000',
+    fontSize: 25,
+    color: '#000',
     marginBottom: 20,
     textAlign: 'center',
   },
-  saveButton: {
-    width: '50%',
-    height: 40,
-    backgroundColor: '#E37D00',
+ buttonPrimary: {
     padding: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'stretch',
+    height: 40,
     borderRadius: 5,
+    borderColor: '#000000',
+    borderWidth: 1,
   },
   saveButtonText: {
-    fontSize: 20,
+    fontSize: 15,
     fontWeight: 'bold',
-    color: '#730000',
+    color: '#000',
     textAlign: 'center',
   },
   input: {
-    width: '90%',
+    width: '100%',
     height: 45,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: '#730000',
-    borderRadius: 5,
-    marginBottom: 10,
+    padding: 5,
+    borderBottomColor: '#999999',
+    borderBottomWidth: 1,
+    marginBottom: 5,
   },
 });

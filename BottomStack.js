@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import { MaterialCommunityIcons } from '@expo/vector-icons'; //Nova Coleta
-import { MaterialIcons } from '@expo/vector-icons'; //Listar Coletas
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import Home from './src/screens/Home';
 import Collect from './src/screens/Collect';
 import CollectList from './src/screens/CollectList';
@@ -13,8 +13,8 @@ export default function BottomStack({ navigation, route }) {
         <Tab.Navigator
             initialRouteName="Home"
             activeColor="#FFFFFF"
-            inactiveColor="#FFC300"
-            barStyle={{ backgroundColor: '#E37D00' }}
+            inactiveColor="#999"
+            barStyle={{ backgroundColor: '#000' }}
         >
             <Tab.Screen
                 name="Home"

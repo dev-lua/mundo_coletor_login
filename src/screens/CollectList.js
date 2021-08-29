@@ -1,42 +1,36 @@
 import * as React from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
-import ProductItem from '../components/CollectItem';
-import ProductModel from '../models/ProductModel';
+import CollectItem from '../components/CollectItem';
+import CollectModel from '../models/CollectModel';
 
 export default function CollectList({ navigation, route }) {
 
   const [items, setItems] = React.useState([]);
 
-  // useEffect será disparado toda vez que a variável/parâmetro route é alterado,
-  // isto é, toda vez que entrar nesta tela redirecionada de outra (ou ela receber o foco
-  // vido de outra aba, evento addListener).
-  // Pega todos os produtos cadastrados no banco AsyncStorage e seta/preenche a
-  // variável de estado (vetor de produtos)
-
   React.useEffect(() => {
-    ProductModel.getItems().then(items => setItems(items))
+    CollectModel.getItems().then(items => setItems(items))
 
     const unsubscribe = navigation.addListener('focus', () => {
-      ProductModel.getItems().then(items => setItems(items))
+      CollectModel.getItems().then(items => setItems(items))
     });
 
     return () => {
       unsubscribe;
     };
 
-  },[route]);
+  }, [route]);
 
   return (
     <View style={styles.container}>
-      <FlatList
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        style={styles.scrollContainer}
-        data={items}
-        keyExtractor={(item, index) => String(item.id)}
-        // Passa o objeto/parâmetro navigation para o componente ProductItem
-        renderItem={({item}) => <ProductItem item={item} navigation={navigation} />
-        }
+        <FlatList
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          style={styles.scrollContainer}
+          data={items}
+          keyExtractor={(item) => String(item.id)}
+
+          renderItem={({ item }) => <CollectItem item={item} navigation={navigation} />
+          }
         />
     </View>
   );
@@ -44,13 +38,17 @@ export default function CollectList({ navigation, route }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#FFC300',
+    flex: 2,
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    backgroundColor: '#ffffff',
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingTop: 10,
+    position: 'relative',
   },
   scrollContainer: {
     flex: 1,
-    width: '90%'
+    width: '100%'
   },
 });
